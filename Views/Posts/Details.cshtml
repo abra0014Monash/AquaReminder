@@ -1,0 +1,89 @@
+﻿@model AquaReminder.Models.Post
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Content)*@
+            @Html.Raw(Model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PublishDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PublishDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostLikes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostLikes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.author)
+        </dd>
+
+    </dl>
+</div>
+@Html.DisplayFor(modelItem => Model.PostLikes)likes<br />
+@Html.ActionLink("Likes", "Like", new { id = Model.Id })<br />
+
+@foreach (var item in Model.Comments)
+{
+    @item.text
+    <text>&emsp;&emsp;-&emsp;&emsp;</text>
+    @item.author<br />
+
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Comment</legend>
+        @Html.Partial("createComment", new AquaReminder.Models.Comment { PostId = Model.Id })
+    </fieldset>
+}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    tinymce.init({
+        selector: '#myTextArea'
+    });
+    </script>
+    }
